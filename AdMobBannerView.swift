@@ -4,10 +4,10 @@ import GoogleMobileAds
 struct AdMobBannerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let controller = UIViewController()
-        let bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = "ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyyyyyy"  // Replace with actual AdMob banner unit ID
         bannerView.rootViewController = controller
-        bannerView.load(GADRequest())
+        bannerView.load(Request())
 
         controller.view.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false

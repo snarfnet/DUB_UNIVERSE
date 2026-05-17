@@ -100,7 +100,7 @@ class AdvancedHihat {
         let envelope = exp(-8.0 * progress)
 
         // Apply saturation
-        let output = saturation.process(filtered * envelope, intensity: saturation * 0.3)
+        let output = self.saturation.process(filtered * envelope, intensity: saturation * 0.3)
 
         return output * 0.4
     }
@@ -160,7 +160,7 @@ class AdvancedSnare {
         let envelope = snap + tail * 0.5
 
         // Apply saturation
-        let output = saturation.process(noise * envelope, intensity: saturation)
+        let output = self.saturation.process(noise * envelope, intensity: saturation)
 
         return output * 0.5
     }

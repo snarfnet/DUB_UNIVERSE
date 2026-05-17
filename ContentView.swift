@@ -341,7 +341,10 @@ struct ContentView: View {
                 ZStack(alignment: .center) {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(Color.black.opacity(0.5))
-                        .stroke(deepCyan.opacity(0.3), lineWidth: 1)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(deepCyan.opacity(0.3), lineWidth: 1)
+                        )
 
                     GeometryReader { geo in
                         ZStack {
@@ -392,7 +395,7 @@ struct ContentView: View {
 
                         Toggle("", isOn: Binding(
                             get: { track.isEnabled },
-                            set: { multiTrackGenerator.toggleTrack(track.id) }
+                            set: { _ in multiTrackGenerator.toggleTrack(track.id) }
                         ))
                             .toggleStyle(.switch)
                             .tint(acidGreen)
