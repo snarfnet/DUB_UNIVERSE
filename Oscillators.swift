@@ -27,6 +27,7 @@ class WobblingBassOscillator {
         self.wobbleDepth = wobbleStrength
 
         let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let durationFloat = Float(duration)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -48,11 +49,11 @@ class WobblingBassOscillator {
             let envelope: Float
             if t < 0.015 {
                 envelope = t / 0.015  // 15ms attack
-            } else if t < duration * 0.5 {
+            } else if t < durationFloat * 0.5 {
                 envelope = 1.0
             } else {
-                let releaseTime = duration - (duration * 0.5)
-                let releasePos = t - (duration * 0.5)
+                let releaseTime = durationFloat - (durationFloat * 0.5)
+                let releasePos = t - (durationFloat * 0.5)
                 envelope = max(0, 1.0 - (releasePos / releaseTime))
             }
 
@@ -66,9 +67,6 @@ class WobblingBassOscillator {
             for i in 0..<sampleCount {
                 floatData[i] = buffer[i]
             }
-
-            let file = try! AVAudioFile(forWriting: URL(fileURLWithPath: "/dev/null"), settings: pcmFormat.settings!)
-            try! file.write(from: audioBuffer)
         }
     }
 }
