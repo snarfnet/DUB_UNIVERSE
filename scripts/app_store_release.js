@@ -97,10 +97,33 @@ async function linkBuild(versionId, buildId) {
 }
 
 async function submit(versionId) {
-  return (await api('POST', '/v1/appStoreVersionSubmissions', {
+  const submission = (await api('POST', '/v1/reviewSubmissions', {
     data: {
-      type: 'appStoreVersionSubmissions',
+      type: 'reviewSubmissions',
+      attributes: {
+        platform: 'IOS',
+      },
       relationships: {
+        app: {
+          data: {
+            type: 'apps',
+            id: APP_ID,
+          },
+        },
+      },
+    },
+  })).data;
+
+  await api('POST', '/v1/reviewSubmissionItems', {
+    data: {
+      type: 'reviewSubmissionItems',
+      relationships: {
+        reviewSubmission: {
+          data: {
+            type: 'reviewSubmissions',
+            id: submission.id,
+          },
+        },
         appStoreVersion: {
           data: {
             type: 'appStoreVersions',
@@ -109,7 +132,19 @@ async function submit(versionId) {
         },
       },
     },
-  })).data;
+  });
+
+  await api('PATCH', `/v1/reviewSubmissions/${submission.id}`, {
+    data: {
+      type: 'reviewSubmissions',
+      id: submission.id,
+      attributes: {
+        state: 'SUBMITTED',
+      },
+    },
+  });
+
+  return submission;
 }
 
 async function main() {

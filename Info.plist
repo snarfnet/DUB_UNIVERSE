@@ -6,6 +6,8 @@
 	<string>AppIcon</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9404799280370656~4306688502</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
