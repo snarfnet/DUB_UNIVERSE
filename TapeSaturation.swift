@@ -53,8 +53,8 @@ class TapeEmulation {
 
     private func compressWithKnee(_ signal: Float, intensity: Float) -> Float {
         let absSignal = abs(signal)
-        let threshold = 0.6
-        let ratio = 4.0
+        let threshold: Float = 0.6
+        let ratio: Float = 4.0
 
         if absSignal > threshold {
             let excess = absSignal - threshold

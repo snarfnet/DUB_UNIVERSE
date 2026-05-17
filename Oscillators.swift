@@ -26,7 +26,7 @@ class WobblingBassOscillator {
         self.wobbleFreq = wobbleRate
         self.wobbleDepth = wobbleStrength
 
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0)?.sampleRate ?? 44100)
+        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -84,7 +84,7 @@ class KickDrumSynth {
     }
 
     func playKick(duration: Double = 0.5) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0)?.sampleRate ?? 44100)
+        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -127,7 +127,7 @@ class HiHatSynth {
     }
 
     func playHihat(duration: Double = 0.15) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0)?.sampleRate ?? 44100)
+        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -170,7 +170,7 @@ class AtmospherePad {
     }
 
     func playPad(frequency: Float, duration: Double) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0)?.sampleRate ?? 44100)
+        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
