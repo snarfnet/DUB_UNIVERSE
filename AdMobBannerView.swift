@@ -5,7 +5,7 @@ struct AdMobBannerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let controller = UIViewController()
         let bannerView = BannerView(adSize: AdSizeBanner)
-        bannerView.adUnitID = "ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyyyyyy"  // Replace with actual AdMob banner unit ID
+        bannerView.adUnitID = "ca-app-pub-9404799280370656/8551843827"
         bannerView.rootViewController = controller
         bannerView.load(Request())
 
