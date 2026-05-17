@@ -4,6 +4,10 @@ import GoogleMobileAds
 struct AdMobBannerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let controller = UIViewController()
+        guard Bundle.main.object(forInfoDictionaryKey: "GADApplicationIdentifier") is String else {
+            return controller
+        }
+
         let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = "ca-app-pub-9404799280370656/8551843827"
         bannerView.rootViewController = controller

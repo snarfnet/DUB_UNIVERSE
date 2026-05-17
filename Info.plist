@@ -8,6 +8,8 @@
 	<string>ca-app-pub-9404799280370656~4306688502</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier may be used to show relevant ads and measure ad performance.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
