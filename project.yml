@@ -1,0 +1,36 @@
+name: DUB_UNIVERSE
+options:
+  bundleIdPrefix: com.snarfnet
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 12.0.0
+targets:
+  DUB_UNIVERSE:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        includes:
+          - "*.swift"
+    resources:
+      - Assets.xcassets
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: DUB UNIVERSE
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    dependencies:
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.snarfnet.dubuniverse
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGNING_ALLOWED: NO
