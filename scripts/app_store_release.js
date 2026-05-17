@@ -139,7 +139,7 @@ async function submit(versionId) {
       type: 'reviewSubmissions',
       id: submission.id,
       attributes: {
-        state: 'SUBMITTED',
+        submitted: true,
       },
     },
   });

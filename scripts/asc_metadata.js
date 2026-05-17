@@ -113,6 +113,25 @@ async function versionLocalization(versionId) {
   })).data;
 }
 
+async function setVersionLocalization() {
+  const version = await appStoreVersion();
+  const loc = await versionLocalization(version.id);
+  await api('PATCH', `/v1/appStoreVersionLocalizations/${loc.id}`, {
+    data: {
+      type: 'appStoreVersionLocalizations',
+      id: loc.id,
+      attributes: {
+        description: 'DUB UNIVERSEは、深く無骨なダブテクノのアイデアを作る音楽生成アプリです。ベース、コード、エコー、質感、ドラムを調整し、錆びたハードウェアのような画面でパターンを組み立てられます。生成したフレーズはMIDIとして書き出せます。',
+        keywords: 'dub techno,ダブテクノ,音楽生成,MIDI,シーケンサー',
+        marketingUrl: 'https://github.com/snarfnet/DUB_UNIVERSE',
+        promotionalText: '錆びた鉄のマシンで、深いダブテクノの原型を作る。',
+        supportUrl: 'https://github.com/snarfnet/DUB_UNIVERSE/issues',
+      },
+    },
+  });
+  console.log(`Updated version localization ${loc.attributes.locale}`);
+}
+
 async function listCategories() {
   const cats = await api('GET', '/v1/appCategories?limit=200');
   for (const cat of cats.data) {
@@ -403,6 +422,10 @@ async function main() {
     await patchVersion(version.id);
     await setPrivacyPolicy();
     console.log('Updated category, content rights, version basics, and privacy policy URL.');
+    return;
+  }
+  if (command === 'version-localization') {
+    await setVersionLocalization();
     return;
   }
   if (command === 'screenshots') {
