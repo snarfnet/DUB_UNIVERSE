@@ -77,7 +77,9 @@ jobs:
             CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
             CODE_SIGN_STYLE="Manual" \
             CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE="$PROFILE_UUID"
+            PROVISIONING_PROFILE="$PROFILE_UUID" \
+            ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon" \
+            INFOPLIST_KEY_CFBundleIconName="AppIcon"
 
       - name: Export IPA
         run: |
@@ -111,7 +113,7 @@ jobs:
             -exportOptionsPlist "$EXPORT_OPTIONS" \
             -exportPath "$RUNNER_TEMP/output"
 
-      - name: Upload to TestFlight
+      - name: Upload to App Store Connect
         env:
           APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
