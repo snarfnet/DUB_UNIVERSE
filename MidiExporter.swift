@@ -10,10 +10,11 @@ class MidiExporter {
 
         // MIDI Header
         midiData.append(contentsOf: "MThd".utf8)  // Header ID
-        midiData.append(0, 0, 0, 6)               // Header length
-        midiData.append(0, 0)                     // Format type 0
-        midiData.append(0, UInt8(tracks.count))  // Number of tracks
-        midiData.append(0, 96)                    // Division: 96 ticks per quarter note
+        let enabledTrackCount = UInt8(min(tracks.filter(\.isEnabled).count, 255))
+        midiData.append(contentsOf: [0, 0, 0, 6])              // Header length
+        midiData.append(contentsOf: [0, 1])                    // Format type 1
+        midiData.append(contentsOf: [0, enabledTrackCount])    // Number of tracks
+        midiData.append(contentsOf: [0, 96])                   // Division: 96 ticks per quarter note
 
         // Create a track for each enabled track
         for track in tracks where track.isEnabled {
@@ -108,11 +109,11 @@ class MidiExporter {
         case .bass:
             program = 33  // Electric bass
         case .kick:
-            program = 128  // Drum kit
+            program = 0  // Drum channel fallback
         case .hihat:
-            program = 128  // Drum kit
+            program = 0  // Drum channel fallback
         case .snare:
-            program = 128  // Drum kit
+            program = 0  // Drum channel fallback
         case .pad:
             program = 89  // Pad synth
         case .sidechain:
