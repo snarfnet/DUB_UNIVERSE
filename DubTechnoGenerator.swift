@@ -8,11 +8,11 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
 
     private let engine = AVAudioEngine()
     private let masterMixer = AVAudioMixerNode()
-    private let bassOscillator: WobblingBassOscillator!
-    private let kickDrum: KickDrumSynth!
-    private let hihat: HiHatSynth!
-    private let pad: AtmospherePad!
-    private let delay: DubDelay!
+    private var bassOscillator: WobblingBassOscillator!
+    private var kickDrum: KickDrumSynth!
+    private var hihat: HiHatSynth!
+    private var pad: AtmospherePad!
+    private var delay: DubDelay!
 
     private var sequenceTimer: Timer?
     private var stepDuration: Double = 0.125  // 16th note at 120 BPM
