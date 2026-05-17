@@ -4,5 +4,7 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 private_keys/
+signing/
+DUB_UNIVERSE_SIGNING/
 *.xcodeproj/
 *.xcworkspace/
