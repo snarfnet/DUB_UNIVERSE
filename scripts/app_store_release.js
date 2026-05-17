@@ -77,7 +77,7 @@ async function getOrCreateVersion() {
 }
 
 async function latestBuild() {
-  const path = `/v1/builds?filter[app]=${APP_ID}&filter[version]=${encodeURIComponent(VERSION)}&sort=-uploadedDate&limit=5`;
+  const path = `/v1/builds?filter[app]=${APP_ID}&sort=-uploadedDate&limit=5`;
   const builds = await api('GET', path);
   return builds.data || [];
 }

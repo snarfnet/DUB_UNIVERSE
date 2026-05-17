@@ -278,7 +278,7 @@ async function uploadScreenshots() {
 }
 
 async function latestBuild() {
-  const result = await api('GET', `/v1/builds?filter[app]=${APP_ID}&filter[version]=${encodeURIComponent(VERSION)}&sort=-uploadedDate&limit=5`);
+  const result = await api('GET', `/v1/builds?filter[app]=${APP_ID}&sort=-uploadedDate&limit=5`);
   return result.data || [];
 }
 
