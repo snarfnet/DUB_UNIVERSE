@@ -6,12 +6,12 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
     @Published var currentStep = 0
     @Published var parameters: DubTechnoParameters?
 
-    private let engine = AVAudioEngine()
-    private let masterMixer = AVAudioMixerNode()
-    private var bassOscillator: WobblingBassOscillator!
-    private var kickDrum: KickDrumSynth!
-    private var hihat: HiHatSynth!
-    private var pad: AtmospherePad!
+    private var engine: AVAudioEngine?
+    private var masterMixer: AVAudioMixerNode?
+    private var bassOscillator: WobblingBassOscillator?
+    private var kickDrum: KickDrumSynth?
+    private var hihat: HiHatSynth?
+    private var pad: AtmospherePad?
     private var delay: DubDelay!
 
     private var sequenceTimer: Timer?
@@ -19,20 +19,38 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
 
     override init() {
         super.init()
-
-        engine.attach(masterMixer)
-        engine.connect(masterMixer, to: engine.outputNode, format: engine.outputNode.outputFormat(forBus: 0))
-
-        self.bassOscillator = WobblingBassOscillator(engine: engine, mixer: masterMixer)
-        self.kickDrum = KickDrumSynth(engine: engine, mixer: masterMixer)
-        self.hihat = HiHatSynth(engine: engine, mixer: masterMixer)
-        self.pad = AtmospherePad(engine: engine, mixer: masterMixer)
         self.delay = DubDelay()
+    }
+
+    private func ensureAudioEngine() -> Bool {
+        if engine?.isRunning == true {
+            return true
+        }
+
+        let newEngine = AVAudioEngine()
+        let newMixer = AVAudioMixerNode()
+        newEngine.attach(newMixer)
+        newEngine.connect(newMixer, to: newEngine.outputNode, format: newEngine.outputNode.outputFormat(forBus: 0))
+
+        self.bassOscillator = WobblingBassOscillator(engine: newEngine, mixer: newMixer)
+        self.kickDrum = KickDrumSynth(engine: newEngine, mixer: newMixer)
+        self.hihat = HiHatSynth(engine: newEngine, mixer: newMixer)
+        self.pad = AtmospherePad(engine: newEngine, mixer: newMixer)
 
         do {
-            try engine.start()
+            try newEngine.start()
+            self.engine = newEngine
+            self.masterMixer = newMixer
+            return true
         } catch {
             print("Error starting audio engine: \(error)")
+            self.engine = nil
+            self.masterMixer = nil
+            self.bassOscillator = nil
+            self.kickDrum = nil
+            self.hihat = nil
+            self.pad = nil
+            return false
         }
     }
 
@@ -44,6 +62,7 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
 
     func play() {
         guard let params = parameters else { return }
+        guard ensureAudioEngine() else { return }
 
         isPlaying = true
         currentStep = 0
@@ -71,12 +90,12 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
 
         // Kick drum (4-on-the-floor)
         if params.kickPattern[step] {
-            kickDrum.playKick(duration: 0.5)
+            kickDrum?.playKick(duration: 0.5)
         }
 
         // Hi-hat (sparse)
         if params.hihatPattern[step] {
-            hihat.playHihat(duration: 0.1)
+            hihat?.playHihat(duration: 0.1)
         }
 
         // Bass line (wobbling)
@@ -84,7 +103,7 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
             let note = params.bassNotes[Int.random(in: 0..<params.bassNotes.count)]
             let frequency = midiNoteToFrequency(Float(note))
             let duration = stepDuration * 2.0  // Hold for 2 steps
-            bassOscillator.playNote(
+            bassOscillator?.playNote(
                 frequency,
                 wobbleRate: Float(params.wobbleRate),
                 wobbleStrength: Float(params.wobbleStrength),
@@ -96,7 +115,7 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
         if Int.random(in: 0..<8) == 0 && params.atmosphereAmount > 0.3 {
             let padNote = Int.random(in: 36...48)  // C2-C3
             let frequency = midiNoteToFrequency(Float(padNote))
-            pad.playPad(frequency: frequency, duration: stepDuration * 4.0)
+            pad?.playPad(frequency: frequency, duration: stepDuration * 4.0)
         }
 
         DispatchQueue.main.async {

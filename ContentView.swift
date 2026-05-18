@@ -55,13 +55,15 @@ struct ContentView: View {
                 .padding(.bottom, 92)
             }
 
-            VStack {
-                Spacer()
-                AdMobBannerView()
-                    .frame(width: 320, height: 50)
-                    .background(Color.black.opacity(0.48))
+            if analyzer.analysisResults != nil {
+                VStack {
+                    Spacer()
+                    AdMobBannerView()
+                        .frame(width: 320, height: 50)
+                        .background(Color.black.opacity(0.48))
+                }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         .fileImporter(
             isPresented: $showFilePicker,

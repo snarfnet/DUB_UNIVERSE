@@ -27,8 +27,6 @@ final class MultiTrackGenerator: NSObject, ObservableObject {
     @Published var currentStep = 0
     @Published var parameters: DubTechnoParameters?
 
-    private let engine = AVAudioEngine()
-    private let masterMixer = AVAudioMixerNode()
     private let bass = AdvancedWobblingBass()
     private let kick = AdvancedKickDrum()
     private let hihat = AdvancedHihat()
@@ -42,15 +40,6 @@ final class MultiTrackGenerator: NSObject, ObservableObject {
 
     override init() {
         super.init()
-
-        engine.attach(masterMixer)
-        engine.connect(masterMixer, to: engine.outputNode, format: engine.outputNode.outputFormat(forBus: 0))
-
-        do {
-            try engine.start()
-        } catch {
-            print("Error starting audio engine: \(error)")
-        }
 
         // Initialize default tracks
         initializeTracks()

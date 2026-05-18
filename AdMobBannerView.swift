@@ -8,6 +8,8 @@ struct AdMobBannerView: UIViewControllerRepresentable {
             return controller
         }
 
+        MobileAds.shared.start()
+
         let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = "ca-app-pub-9404799280370656/8551843827"
         bannerView.rootViewController = controller
