@@ -23,5 +23,6 @@ We do not require an account. We do not collect your name, email address, phone 
 
 ## Contact
 
-For privacy questions, contact the developer through the support page:
-https://github.com/snarfnet/DUB_UNIVERSE/issues
+For privacy questions, contact the developer:
+- Email: snarfnet@gmail.com
+- Support: https://snarfnet.github.io/DUB_UNIVERSE/
