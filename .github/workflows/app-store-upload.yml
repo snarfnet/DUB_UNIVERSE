@@ -30,6 +30,12 @@ jobs:
     - name: Generate Xcode project
       run: xcodegen generate
 
+    - name: Patch Info.plist build number
+      run: |
+        sed -i "" "/<key>CFBundleVersion<\/key>/{n;s|<string>[^<]*</string>|<string>$BUILD_NUM</string>|;}" Info.plist
+        echo "Info.plist after patch:"
+        grep -A1 CFBundleVersion Info.plist
+
     - name: Set up ASC API Key
       env:
         ASC_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
@@ -46,6 +52,7 @@ jobs:
           -archivePath build/DUB_UNIVERSE.xcarchive \
           CODE_SIGN_STYLE=Automatic \
           DEVELOPMENT_TEAM=83VGKGSQUH \
+          CURRENT_PROJECT_VERSION=$BUILD_NUM \
           -allowProvisioningUpdates \
           -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_WDXGY9WX55.p8 \
           -authenticationKeyID WDXGY9WX55 \
@@ -73,8 +80,10 @@ jobs:
 
     - name: Upload IPA
       run: |
+        IPA=$(find build/export -name "*.ipa" | head -1)
+        echo "Found IPA: $IPA"
         xcrun altool --upload-app \
-          -f build/export/DUB_UNIVERSE.ipa \
+          -f "$IPA" \
           -t ios \
           --apiKey WDXGY9WX55 \
           --apiIssuer 2be0734f-943a-4d61-9dc9-5d9045c46fec
