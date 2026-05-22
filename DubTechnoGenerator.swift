@@ -12,15 +12,10 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
     private var kickDrum: KickDrumSynth?
     private var hihat: HiHatSynth?
     private var pad: AtmospherePad?
-    private var delay: DubDelay!
+    private var delay = DubDelay()
 
     private var sequenceTimer: Timer?
     private var stepDuration: Double = 0.125  // 16th note at 120 BPM
-
-    override init() {
-        super.init()
-        self.delay = DubDelay()
-    }
 
     private func ensureAudioEngine() -> Bool {
         if engine?.isRunning == true {

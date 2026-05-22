@@ -60,10 +60,10 @@ class WobblingBassOscillator {
             buffer[i] = sample * envelope * 0.6
         }
 
-        let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1)!
+        guard let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else { return }
         if let audioBuffer = AVAudioPCMBuffer(pcmFormat: pcmFormat, frameCapacity: AVAudioFrameCount(sampleCount)) {
             audioBuffer.frameLength = AVAudioFrameCount(sampleCount)
-            let floatData = audioBuffer.floatChannelData![0]
+            guard let floatData = audioBuffer.floatChannelData?[0] else { return }
             for i in 0..<sampleCount {
                 floatData[i] = buffer[i]
             }
@@ -103,10 +103,10 @@ class KickDrumSynth {
             buffer[i] = sample * envelope * 0.8
         }
 
-        let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1)!
+        guard let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else { return }
         if let audioBuffer = AVAudioPCMBuffer(pcmFormat: pcmFormat, frameCapacity: AVAudioFrameCount(sampleCount)) {
             audioBuffer.frameLength = AVAudioFrameCount(sampleCount)
-            let floatData = audioBuffer.floatChannelData![0]
+            guard let floatData = audioBuffer.floatChannelData?[0] else { return }
             for i in 0..<sampleCount {
                 floatData[i] = buffer[i]
             }
@@ -146,10 +146,10 @@ class HiHatSynth {
             buffer[i] = filtered * 0.4
         }
 
-        let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1)!
+        guard let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else { return }
         if let audioBuffer = AVAudioPCMBuffer(pcmFormat: pcmFormat, frameCapacity: AVAudioFrameCount(sampleCount)) {
             audioBuffer.frameLength = AVAudioFrameCount(sampleCount)
-            let floatData = audioBuffer.floatChannelData![0]
+            guard let floatData = audioBuffer.floatChannelData?[0] else { return }
             for i in 0..<sampleCount {
                 floatData[i] = buffer[i]
             }
@@ -193,10 +193,10 @@ class AtmospherePad {
             buffer[i] = sample * envelope * 0.15
         }
 
-        let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1)!
+        guard let pcmFormat = AVAudioFormat(standardFormatWithSampleRate: Double(sampleRate), channels: 1) else { return }
         if let audioBuffer = AVAudioPCMBuffer(pcmFormat: pcmFormat, frameCapacity: AVAudioFrameCount(sampleCount)) {
             audioBuffer.frameLength = AVAudioFrameCount(sampleCount)
-            let floatData = audioBuffer.floatChannelData![0]
+            guard let floatData = audioBuffer.floatChannelData?[0] else { return }
             for i in 0..<sampleCount {
                 floatData[i] = buffer[i]
             }

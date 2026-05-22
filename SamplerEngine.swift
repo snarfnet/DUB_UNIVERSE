@@ -29,11 +29,15 @@ class SamplerEngine: NSObject, ObservableObject {
 
             let format = audioFile.processingFormat
             if format.channelCount > 0 {
-                self.sampleBuffer = AVAudioPCMBuffer(
+                guard let buffer = AVAudioPCMBuffer(
                     pcmFormat: format,
                     frameCapacity: AVAudioFrameCount(audioFile.length)
-                )
-                try audioFile.read(into: self.sampleBuffer!)
+                ) else {
+                    print("Failed to create PCM buffer for sample")
+                    return false
+                }
+                try audioFile.read(into: buffer)
+                self.sampleBuffer = buffer
             }
 
             self.sampleName = url.lastPathComponent
