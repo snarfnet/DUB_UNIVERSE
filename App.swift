@@ -4,18 +4,15 @@ import GoogleMobileAds
 
 @main
 struct DubUniverseApp: App {
-    init() {
-        configureAudioSession()
-        DispatchQueue.main.async {
-            MobileAds.shared.start { _ in
-                print("AdMob SDK initialized")
-            }
-        }
-    }
-
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    configureAudioSession()
+                    MobileAds.shared.start { _ in
+                        print("AdMob SDK initialized")
+                    }
+                }
         }
     }
 

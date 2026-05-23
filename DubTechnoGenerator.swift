@@ -17,6 +17,8 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
     private var sequenceTimer: Timer?
     private var stepDuration: Double = 0.125  // 16th note at 120 BPM
 
+    private static let safeFormat = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!
+
     private func ensureAudioEngine() -> Bool {
         if engine?.isRunning == true {
             return true
@@ -25,7 +27,10 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
         let newEngine = AVAudioEngine()
         let newMixer = AVAudioMixerNode()
         newEngine.attach(newMixer)
-        newEngine.connect(newMixer, to: newEngine.outputNode, format: newEngine.outputNode.outputFormat(forBus: 0))
+
+        let outputFormat = newEngine.outputNode.outputFormat(forBus: 0)
+        let connectFormat = outputFormat.sampleRate > 0 && outputFormat.channelCount > 0 ? outputFormat : Self.safeFormat
+        newEngine.connect(newMixer, to: newEngine.outputNode, format: connectFormat)
 
         self.bassOscillator = WobblingBassOscillator(engine: newEngine, mixer: newMixer)
         self.kickDrum = KickDrumSynth(engine: newEngine, mixer: newMixer)

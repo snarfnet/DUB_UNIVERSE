@@ -13,12 +13,14 @@ class WobblingBassOscillator {
     private var wobbleDepth: Float = 0.3
     private var oscIndex = 0
 
+    private static let safeFormat = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)!
+
     init(engine: AVAudioEngine, mixer: AVAudioMixerNode) {
         self.engine = engine
         self.mixer = mixer
         self.osc = AVAudioPlayerNode()
         engine.attach(osc)
-        engine.connect(osc, to: mixer, format: engine.outputNode.outputFormat(forBus: 0))
+        engine.connect(osc, to: mixer, format: Self.safeFormat)
     }
 
     func playNote(_ frequency: Float, wobbleRate: Float, wobbleStrength: Float, duration: Double) {
@@ -26,7 +28,7 @@ class WobblingBassOscillator {
         self.wobbleFreq = wobbleRate
         self.wobbleDepth = wobbleStrength
 
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let sampleRate: Float = 44100
         let durationFloat = Float(duration)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
@@ -82,7 +84,7 @@ class KickDrumSynth {
     }
 
     func playKick(duration: Double = 0.5) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let sampleRate = Float(44100)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -125,7 +127,7 @@ class HiHatSynth {
     }
 
     func playHihat(duration: Double = 0.15) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let sampleRate = Float(44100)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 
@@ -168,7 +170,7 @@ class AtmospherePad {
     }
 
     func playPad(frequency: Float, duration: Double) {
-        let sampleRate = Float(engine.outputNode.outputFormat(forBus: 0).sampleRate)
+        let sampleRate = Float(44100)
         let sampleCount = Int(sampleRate * Float(duration))
         var buffer = [Float](repeating: 0, count: sampleCount)
 

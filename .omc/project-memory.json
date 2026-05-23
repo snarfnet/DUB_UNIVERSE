@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1779435331595,
+  "projectRoot": "C:\\Users\\Windows\\DUB_UNIVERSE",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "scripts"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "ASC_Submission_Assets": {
+      "path": "ASC_Submission_Assets",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1779435331540,
+      "keyFiles": []
+    },
+    "Assets.xcassets": {
+      "path": "Assets.xcassets",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1779435331541,
+      "keyFiles": [
+        "Contents.json"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 1,
+      "lastAccessed": 1779435331542,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 4,
+      "lastAccessed": 1779435331543,
+      "keyFiles": [
+        "app_store_release.js",
+        "asc_metadata.js",
+        "create_app_store_signing.js",
+        "create_submission_assets.py"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}

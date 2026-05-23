@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"python3 -c \\\"\\nimport jwt, time, requests\\nKEY_PATH = 'C:/Users/Windows/asc-automation/AuthKey_WDXGY9WX55.p8'\\nwith open(KEY_PATH) as f: key = f.read()\\nnow = int(time.time())\\ntoken = jwt...",
+  "error": "Exit code 1\nTraceback (most recent call last):\r\n  File \"<string>\", line 27, in <module>\r\n    print(f'{emoji} {name}: {state}')\r\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nUnicodeEncodeError: 'cp932' codec can't encode character '\\u2705' in position 0: illegal multibyte sequence",
+  "timestamp": "2026-05-22T08:22:17.877Z",
+  "retry_count": 1
+}
