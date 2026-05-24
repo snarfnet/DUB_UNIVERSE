@@ -17,7 +17,12 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
     private var sequenceTimer: Timer?
     private var stepDuration: Double = 0.125  // 16th note at 120 BPM
 
-    private static let safeFormat = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!
+    private static let safeFormat: AVAudioFormat = {
+        guard let format = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2) else {
+            fatalError("Failed to create standard audio format 44100/2ch")
+        }
+        return format
+    }()
 
     private func ensureAudioEngine() -> Bool {
         if engine?.isRunning == true {

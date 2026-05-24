@@ -1,17 +1,20 @@
 import SwiftUI
 import AVFoundation
 import GoogleMobileAds
+import AppTrackingTransparency
 
 @main
 struct DubUniverseApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onAppear {
                     configureAudioSession()
-                    MobileAds.shared.start { _ in
-                        print("AdMob SDK initialized")
-                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    requestTrackingPermission()
                 }
         }
     }
@@ -24,5 +27,23 @@ struct DubUniverseApp: App {
         } catch {
             print("Failed to configure audio session: \(error)")
         }
+    }
+
+    private func requestTrackingPermission() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                print("ATT status: \(status.rawValue)")
+            }
+        }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        MobileAds.shared.start(completionHandler: nil)
+        return true
     }
 }

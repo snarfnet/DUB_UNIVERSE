@@ -13,7 +13,12 @@ class WobblingBassOscillator {
     private var wobbleDepth: Float = 0.3
     private var oscIndex = 0
 
-    private static let safeFormat = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)!
+    private static let safeFormat: AVAudioFormat = {
+        guard let format = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1) else {
+            fatalError("Failed to create standard audio format 44100/1ch")
+        }
+        return format
+    }()
 
     init(engine: AVAudioEngine, mixer: AVAudioMixerNode) {
         self.engine = engine
