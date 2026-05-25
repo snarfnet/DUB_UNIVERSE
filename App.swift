@@ -6,7 +6,6 @@ import AppTrackingTransparency
 @main
 struct DubUniverseApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @Environment(\.scenePhase) private var scenePhase
     @State private var attRequested = false
 
     var body: some Scene {
@@ -15,12 +14,11 @@ struct DubUniverseApp: App {
                 .onAppear {
                     configureAudioSession()
                 }
-                .onChange(of: scenePhase) { _, newPhase in
-                    if newPhase == .active && !attRequested {
-                        attRequested = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            ATTrackingManager.requestTrackingAuthorization { _ in }
-                        }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    guard !attRequested else { return }
+                    attRequested = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        ATTrackingManager.requestTrackingAuthorization { _ in }
                     }
                 }
         }
