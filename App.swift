@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 import GoogleMobileAds
 import AppTrackingTransparency
 
