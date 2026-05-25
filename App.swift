@@ -6,6 +6,8 @@ import AppTrackingTransparency
 @main
 struct DubUniverseApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var attRequested = false
 
     var body: some Scene {
         WindowGroup {
@@ -13,8 +15,13 @@ struct DubUniverseApp: App {
                 .onAppear {
                     configureAudioSession()
                 }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    requestTrackingPermission()
+                .onChange(of: scenePhase) { _, newPhase in
+                    if newPhase == .active && !attRequested {
+                        attRequested = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            ATTrackingManager.requestTrackingAuthorization { _ in }
+                        }
+                    }
                 }
         }
     }
@@ -26,14 +33,6 @@ struct DubUniverseApp: App {
             try session.setActive(true)
         } catch {
             print("Failed to configure audio session: \(error)")
-        }
-    }
-
-    private func requestTrackingPermission() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                print("ATT status: \(status.rawValue)")
-            }
         }
     }
 }
