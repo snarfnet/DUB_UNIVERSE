@@ -1,11 +1,9 @@
 import SwiftUI
-import AVFoundation
 import GoogleMobileAds
 import AppTrackingTransparency
 
 @main
 struct DubUniverseApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var attRequested = false
 
     var body: some Scene {
@@ -18,7 +16,11 @@ struct DubUniverseApp: App {
                     guard !attRequested else { return }
                     attRequested = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        ATTrackingManager.requestTrackingAuthorization { _ in }
+                        ATTrackingManager.requestTrackingAuthorization { _ in
+                            DispatchQueue.main.async {
+                                MobileAds.shared.start()
+                            }
+                        }
                     }
                 }
         }
@@ -32,15 +34,5 @@ struct DubUniverseApp: App {
         } catch {
             print("Failed to configure audio session: \(error)")
         }
-    }
-}
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        MobileAds.shared.start(completionHandler: nil)
-        return true
     }
 }
