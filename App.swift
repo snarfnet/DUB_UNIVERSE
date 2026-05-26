@@ -19,7 +19,7 @@ struct DubUniverseApp: App {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         ATTrackingManager.requestTrackingAuthorization { _ in
                             DispatchQueue.main.async {
-                                MobileAds.shared.start()
+                                GADMobileAds.sharedInstance().start(completionHandler: nil)
                             }
                         }
                     }
