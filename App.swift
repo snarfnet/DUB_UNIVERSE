@@ -11,8 +11,18 @@ struct DubUniverseApp: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    MobileAds.shared.start()
-                    configureAudioSession()
+                    Task {
+                        await MobileAds.shared.start()
+                    }
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        do {
+                            let session = AVAudioSession.sharedInstance()
+                            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+                            try session.setActive(true)
+                        } catch {
+                            print("Failed to configure audio session: \(error)")
+                        }
+                    }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     guard !attRequested else { return }
@@ -24,13 +34,5 @@ struct DubUniverseApp: App {
         }
     }
 
-    private func configureAudioSession() {
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
-            try session.setActive(true)
-        } catch {
-            print("Failed to configure audio session: \(error)")
-        }
-    }
+
 }

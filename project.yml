@@ -47,3 +47,4 @@ targets:
         INFOPLIST_KEY_NSUserTrackingUsageDescription: This identifier may be used to show relevant ads and measure ad performance.
         TARGETED_DEVICE_FAMILY: "1,2"
         CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: "2"
