@@ -22,6 +22,7 @@ final class DubTechnoGenerator: NSObject, ObservableObject {
             ?? AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
     }()
 
+
     private func ensureAudioEngine() -> Bool {
         if engine?.isRunning == true {
             return true

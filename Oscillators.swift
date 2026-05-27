@@ -14,8 +14,8 @@ class WobblingBassOscillator {
     private var oscIndex = 0
 
     private static let safeFormat: AVAudioFormat = {
-        return AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)
-            ?? AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 1, interleaved: false)!
+        return AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)
+            ?? AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
     }()
 
     init(engine: AVAudioEngine, mixer: AVAudioMixerNode) {
