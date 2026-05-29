@@ -13,8 +13,6 @@ struct DubUniverseApp: App {
                 .onAppear {
                     Task {
                         await MobileAds.shared.start()
-                    }
-                    DispatchQueue.global(qos: .userInitiated).async {
                         do {
                             let session = AVAudioSession.sharedInstance()
                             try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
