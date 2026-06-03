@@ -3,16 +3,25 @@ import AVFoundation
 import GoogleMobileAds
 import AppTrackingTransparency
 
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            DispatchQueue.main.async {
+                MobileAds.shared.start { _ in }
+            }
+        }
+        return true
+    }
+}
+
 @main
 struct DubUniverseApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var attRequested = false
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    Task { await MobileAds.shared.start() }
-                }
                 .task {
                     do {
                         let session = AVAudioSession.sharedInstance()
@@ -31,6 +40,4 @@ struct DubUniverseApp: App {
                 }
         }
     }
-
-
 }

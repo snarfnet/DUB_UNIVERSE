@@ -33,6 +33,8 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UIRequiresFullScreen: true
+        GADApplicationIdentifier: ca-app-pub-9404799280370656~4306688502
+        NSUserTrackingUsageDescription: This identifier may be used to show relevant ads and measure ad performance.
     dependencies:
       - package: GoogleMobileAds
         product: GoogleMobileAds
@@ -42,9 +44,7 @@ targets:
         DEVELOPMENT_TEAM: 83VGKGSQUH
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_CFBundleIconName: AppIcon
-        INFOPLIST_KEY_GADApplicationIdentifier: ca-app-pub-9404799280370656~4306688502
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: false
-        INFOPLIST_KEY_NSUserTrackingUsageDescription: This identifier may be used to show relevant ads and measure ad performance.
         TARGETED_DEVICE_FAMILY: "1,2"
         CODE_SIGN_STYLE: Automatic
-        CURRENT_PROJECT_VERSION: "2"
+        CURRENT_PROJECT_VERSION: "3"
