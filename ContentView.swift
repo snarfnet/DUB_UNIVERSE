@@ -55,7 +55,7 @@ struct ContentView: View {
                 .padding(.bottom, 92)
             }
 
-            if analyzer.analysisResults != nil {
+            if analyzer.analysisResults != nil && UIDevice.current.userInterfaceIdiom == .phone {
                 VStack {
                     Spacer()
                     AdMobBannerView()
