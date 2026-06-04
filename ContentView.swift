@@ -7,8 +7,9 @@ struct ContentView: View {
     @StateObject private var multiTrackGenerator = MultiTrackGenerator()
     @StateObject private var sampler = SamplerEngine()
 
+    private enum FilePickerTarget { case main, sampler }
     @State private var selectedAudioURL: URL?
-    @State private var showFilePicker = false
+    @State private var filePickerTarget: FilePickerTarget? = nil
     @State private var selectedMood: DubMood = .hypnotic
     @State private var selectedMacro = "depth"
     @State private var macroValues: [String: Double] = [:]
@@ -16,7 +17,6 @@ struct ContentView: View {
     @State private var xyPadY: Double = 0.5
     @State private var showStepEditor = false
     @State private var showSamplerPanel = false
-    @State private var showSamplerFilePicker = false
     @State private var exportMidiURL: URL?
 
     private let deepCyan = Color(red: 0.1, green: 0.5, blue: 0.6)
@@ -66,15 +66,20 @@ struct ContentView: View {
             }
         }
         .fileImporter(
-            isPresented: $showFilePicker,
-            allowedContentTypes: [.audio],
-            onCompletion: handleFileSelection
-        )
-        .fileImporter(
-            isPresented: $showSamplerFilePicker,
-            allowedContentTypes: [.audio],
-            onCompletion: handleSamplerSelection
-        )
+            isPresented: Binding(
+                get: { filePickerTarget != nil },
+                set: { if !$0 { filePickerTarget = nil } }
+            ),
+            allowedContentTypes: [.audio]
+        ) { result in
+            guard case .success(let url) = result else { return }
+            switch filePickerTarget {
+            case .main: handleFileSelection(.success(url))
+            case .sampler: handleSamplerSelection(.success(url))
+            case nil: break
+            }
+            filePickerTarget = nil
+        }
     }
 
     private var header: some View {
@@ -127,7 +132,7 @@ struct ContentView: View {
                 }
 
                 DubButton(title: "SELECT AUDIO FILE", color: deepCyan, icon: "folder.fill") {
-                    showFilePicker = true
+                    filePickerTarget = .main
                 }
             }
         }
@@ -468,7 +473,7 @@ struct ContentView: View {
                 }
 
                 DubButton(title: "LOAD SAMPLE", color: deepCyan, icon: "waveform") {
-                    showSamplerFilePicker = true
+                    filePickerTarget = .sampler
                 }
 
                 if sampler.sampleName != "No Sample" {
