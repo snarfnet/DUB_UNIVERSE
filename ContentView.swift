@@ -596,7 +596,13 @@ struct ContentView: View {
 
     private func handleFileSelection(_ result: Result<URL, Error>) {
         if case .success(let url) = result {
-            selectedAudioURL = url
+            let accessing = url.startAccessingSecurityScopedResource()
+            let tempURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent(url.lastPathComponent)
+            try? FileManager.default.removeItem(at: tempURL)
+            try? FileManager.default.copyItem(at: url, to: tempURL)
+            if accessing { url.stopAccessingSecurityScopedResource() }
+            selectedAudioURL = tempURL
         }
     }
 
